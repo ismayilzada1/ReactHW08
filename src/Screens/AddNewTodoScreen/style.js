@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     },
     main:{
         flex:25,
-        marginHorizontal:25
+        marginHorizontal:25,
+        marginTop:30
     },
     footer:{
         flex:3,
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     SaveButtonText:{
         color:"#fff",
         fontSize:16,
-        fontWeight:700,
+        fontWeight:"700",
         lineHeight:24
     },
     header:{
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginLeft: 15,
-        position:"absolute"
+        position:"absolute",
     },
     CloseButtonText: {
         fontSize: 45,
@@ -55,12 +56,12 @@ const styles = StyleSheet.create({
         transform: [{ rotate: '45deg' }],
         marginTop: -8,
         marginLeft:8,
-        fontWeight:350
+        fontWeight:"400",
     },
     HeaderText:{
         color:"#fff",
         fontSize:17,
-        fontWeight:600,
+        fontWeight:"600",
         lineHeight:17,
     },
     TaskTitleContainer:{
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     },
     TaskTitle:{
         fontSize:14,
-        fontWeight:600,
+        fontWeight:"600",
         lineHeight:15,
         color:"#1B1B1D",
         marginVertical:5
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     },
     DateAndTimeContainer:{
         flex:1,
-        flexDirection:"row"
+        flexDirection:"row",
     },
     DateContainer:{
         flex:1,
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     },
     CategoryText:{
       flex:1,
-        fontWeight:650,
+        fontWeight:"600",
         fontSize:14,
         lineHeight:15,
         color:"#000"
@@ -116,19 +117,19 @@ const styles = StyleSheet.create({
     },
     DateText:{
         fontSize:14,
-        fontWeight:600,
+        fontWeight:"600",
         lineHeight:15,
         marginBottom:15
     },
     TimeText:{
         fontSize:14,
-        fontWeight:600,
+        fontWeight:"600",
         lineHeight:15,
         marginBottom:15
     },
     NotesText:{
         fontSize:14,
-        fontWeight:600,
+        fontWeight:"600",
         lineHeight:15,
         marginBottom:15
     },
@@ -140,6 +141,26 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor:"#fff"
     },
+    dateIcon:{
+        marginRight:5
+    },
+    FakeInput:{
+        borderWidth:1,
+        borderColor:"#E0E0E0",
+        backgroundColor:"white",
+        borderRadius:6,
+        justifyContent:"space-between",
+        flexDirection:"row",
+        paddingVertical:8,
+        marginLeft:5,
+        alignItems:"center"
+    },
+    FakeInputText:{
+        fontSize:17,
+        fontWeight:600,
+        flex:1,
+        textAlign:"center"
+    }
 
 });
 

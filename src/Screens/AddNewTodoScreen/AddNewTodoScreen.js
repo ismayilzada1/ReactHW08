@@ -1,34 +1,118 @@
 import React,{useState} from 'react';
 import styles from "./style"
-import {Pressable, View, Text, TextInput, TouchableOpacity,Image,DatePickerIOS} from "react-native";
+import {
+    Pressable,
+    View,
+    Text,
+    TextInput,
+    Platform,
+    Image,
+    KeyboardAvoidingView,
+    Button,
+    TouchableOpacity
+} from "react-native";
 import { RadioButton } from 'react-native-paper';
 import Task from "../../Components/Categories/Task";
 import Event from "../../Components/Categories/Event";
 import Goal from "../../Components/Categories/Goal";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {useNavigation} from "@react-navigation/native";
 
-const AddNewTodoScreen = () => {
+
+const AddNewTodoScreen = ({route}) => {
+    const { handleAddTodo } = route.params;
+
+
     const [selectedTask, setSelectedTask] = useState(1);
-
     const handleTaskSelect = (taskId) => {
         setSelectedTask(taskId === selectedTask ? null : taskId);
     };
 
-
     const [notes, setNotes] = useState('');
-
     const handleNotesChange = (text) => {
         setNotes(text);
     };
 
+    const [title, setTitle] = useState('');
+    const handleTitleChange = (text) => {
+        setTitle(text);
+    };
+
+
+
+    const handleSaveTodo = () => {
+        const newTodo = {
+            id: Math.floor(Math.random() * 10000000000000) + 1,
+            categoryId:selectedTask,
+            title:title,
+            description:notes,
+            completed: false,
+        };
+        handleAddTodo(newTodo);
+        navigation.goBack();
+    };
+
+
+
+    const navigation = useNavigation();
+    const handleBackButton = () => {
+        navigation.goBack();
+    };
+
+
+
+
+
+
+
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+    const handleDateConfirm = (date) => {
+        console.warn("A date has been picked: ", date);
+        setSelectedDate(date);
+        hideDatePicker();
+    };
+
+
+
+    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [selectedTime, setSelectedTime] = useState(null);
+    const showTimePicker = () => {
+        setTimePickerVisibility(true);
+    };
+
+    const hideTimePicker = () => {
+        setTimePickerVisibility(false);
+    };
+
+    const handleTimeConfirm = (time) => {
+        console.warn("A Time has been picked: ", time);
+        setSelectedTime(time);
+        hideTimePicker();
+    };
+
+
     return (
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+        >
+
         <View style={styles.container}>
 
 
             <View style={styles.header}>
-                <Pressable style={styles.CloseButton}>
+                <TouchableOpacity style={styles.CloseButton} onPress={handleBackButton}>
                     <Text style={styles.CloseButtonText}>+</Text>
-                </Pressable>
+                </TouchableOpacity>
 
                 <View style={styles.HeaderTextContainer}>
                     <Text style={styles.HeaderText}>Add New Task</Text>
@@ -41,7 +125,7 @@ const AddNewTodoScreen = () => {
 
                     <Text style={styles.TaskTitle}>Task Title</Text>
 
-                    <TextInput style={styles.TaskTitleInput} placeholderTextColor={"#1B1B1D"} placeholder={"Task Title"}></TextInput>
+                    <TextInput style={styles.TaskTitleInput} onChangeText={handleTitleChange} placeholderTextColor={"#1B1B1D"} placeholder={"Task Title"}></TextInput>
 
                 </View>
 
@@ -64,10 +148,52 @@ const AddNewTodoScreen = () => {
                     <View style={styles.DateContainer}>
                         <Text style={styles.DateText}>Date</Text>
 
+                        <View style={{marginTop:-10,marginHorizontal:5}}>
+                            <View style={styles.FakeInput}>
+                                <Text style={styles.FakeInputText}>{selectedDate}</Text>
+
+                                <TouchableOpacity style={styles.dateIcon} onPress={showDatePicker}>
+                                    <Image style={{ width: 20, height: 20 }} source={require('../../../assets/DateTime/calendar.png')} />
+                                </TouchableOpacity>
+                            </View>
+
+                            {/*<TextInput*/}
+                            {/*        style={{ borderWidth: 1, borderColor: 'gray',padding:8 }}*/}
+                            {/*        editable={false}*/}
+                            {/*        value={selectedDate}*/}
+                            {/*/>*/}
+
+                            <DateTimePickerModal
+                                isVisible={isDatePickerVisible}
+                                mode="date"
+                                onConfirm={handleDateConfirm}
+                                onCancel={hideDatePicker}
+                            />
+                        </View>
+
                     </View>
 
                     <View style={styles.TimeContainer}>
                         <Text style={styles.TimeText}>Time</Text>
+
+                        <View style={{marginTop:-10,marginHorizontal:5}}>
+
+                            <View style={styles.FakeInput}>
+                                <Text style={styles.FakeInputText}>{selectedTime}</Text>
+
+                                <TouchableOpacity style={styles.dateIcon} onPress={showDatePicker}>
+                                    <Image style={{ width: 20, height: 20 }} source={require('../../../assets/DateTime/time.png')} />
+                                </TouchableOpacity>
+                            </View>
+
+
+                            <DateTimePickerModal
+                                isVisible={isTimePickerVisible}
+                                mode="time"
+                                onConfirm={handleTimeConfirm}
+                                onCancel={hideTimePicker}
+                            />
+                        </View>
                     </View>
 
                 </View>
@@ -96,12 +222,14 @@ const AddNewTodoScreen = () => {
             </View>
 
             <View style={styles.footer}>
-                <Pressable style={styles.SaveButton}>
+                <Pressable style={styles.SaveButton} onPress={handleSaveTodo}>
                     <Text style={styles.SaveButtonText}>Save</Text>
                 </Pressable>
             </View>
 
         </View>
+
+        </KeyboardAvoidingView>
     );
 };
 
